@@ -2,6 +2,7 @@
 <html>
    <head>
       <link rel="stylesheet" href="stylesheets/setPage.css">
+      <script>scr ="setPage.js"</script>
     </head>
 <body>
 
@@ -9,36 +10,79 @@
 
 <table class="center">
    <tr>
-     <td>-</td>
-     <td>-</td>
-     <td>-</td>
-     <td>-</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
    </tr>
    <tr>
-       <td>-</td>
-       <td>-</td>
-       <td>-</td>
-       <td>-</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
    </tr>
    <tr>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
    </tr>
    <tr>
-     <td>-</td>
-     <td>-</td>
-     <td>-</td>
-     <td>-</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
    </tr>
 </table>
+
+</br>
+</br>
 
 <div>
    <label for="uGuess" >Your Guess:</label>
    <input type="text" id="uGuess" name="uGuess"><br><br>
-   <input type="submit" value="Check">
  </div>
+
+<div>
+ <input type="submit" value="Check">
+ <button id="myBtn">Rules</button>
+</div>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <pre>
+      The objective of this game is create a set of 3 cards from the 12 on the board.
+      <strong>
+      Each card has 4 properties:
+         
+         Color - Red, Green, or Purple
+         Number of Shapes - 1, 2, or 3
+         Shape - Oval, Squiggle, or Diamond
+         Shading - Solid, Partial, Outlined
+         </strong>
+         <i>Ex: green | one | oval | empty 
+         This would be a card with the properties of green for color, one for number of shapes, oval for shape, and empty for shading.</i>
+      
+      ~ A Set consists of 3 cards in which each of the card's properties is the same on each card or different on each card. ~
+      
+      <b>The Play</b>
+      The deck of 81 cards is shuffled and then 12 are displayed.
+      There are no turns - any player can then call out a set when they find one.
+      If correct, the Set is removed and 1 point is awarded to the player that found the set.
+      The player that found the sent would then enter their Player Number when prompted.
+      Then, 3 new cards from the deck replace the cards just removed.
+      If incorrect, the cards remain on the board.
+      If all players agree that a set cannot be found, 3 new cards are added to the board creating a board of 15 cards total.
+      Once a set is found from 15 cards, no new cards are dealt and the game countines with the remaining 12 cards on the board.
+      The game ends when the deck has been depleted. The player with the most points at this time wins!
+    </pre>
+  </div>
+
+</div>
 
 </body>
 </html>
