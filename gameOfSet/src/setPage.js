@@ -1,5 +1,5 @@
 class Card {
-  constructor(){
+  constructor(color,number,shape,fill){
     this.color = color;
     this.number = number;
     this.shape = shape;
