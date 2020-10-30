@@ -7,8 +7,9 @@ function getUserGuess(boardCountUnique) {
 
     while (!correctFormat) {
 
+        correctFormat = true; // The cases below could invalidate the correct format
+
         if (userGuess == "no set") {
-            correctFormat = true;
             potentialSet = [-1];
     
         } else {
@@ -16,51 +17,56 @@ function getUserGuess(boardCountUnique) {
             if (!regex.test(userGuess)) {
                 valResponse = "Your input was in the incorrect format. Please try again."
                 document.getElementById("validate").innerHTML = valResponse;
-                userGuess = document.getElementById("uGuess").value;
+                correctFormat = false;
 
             } else {
+                // Convert user input string to an array using "," as the delimeter
                 potentialSet = userGuess.split(",");
-                potentialSet.sort(function)
+
+                // Convert all string in the array to integers
+                potentialSet.foreach(function(elt,i,a) {
+                    return parseInt(elt);
+                });
+
+                // Sort the array elements from least to greatest
+                potentialSet.sort(function(a,b) {return a-b;});
+
+                // Check for correct number of entries
+                if (potentialSet.length > 3) {
+                    valResponse = "You entered more than three values. Please try again."
+                    document.getElementById("validate").innerHTML = valResponse;
+                    correctFormat = false;
+                
+                // Check for entries out of numerical bounds
+                } else if (potentialSet[0] < 1 || (potentialSet[potentialSet.length - 1] > 12 && boardCountUnique == 12) || (potentialSet[potentialSet.length - 1] > 15 && boardCountUnique == 15)) {
+                    valResponse = "One or more of your guess values are out of bounds. Please try again."
+                    document.getElementById("validate").innerHTML = valResponse;
+                    correctFormat = false;
+                
+                // Check for duplicate entries
+                } else {
+                    duplicateFound = false;
+                    let i = 0;
+                    while (!duplicateFound && i < 2) {
+                        if (potentialSet.indexOf(potentialSet[i]) != potentialSet.lastIndexOf(potentialSet[i])) {
+                            duplicateFound = true;
+                            valResponse = "Your input contains duplicate entries. Please try again."
+                            document.getElementById("validate").innerHTML = valResponse;
+                            correctFormat = false;
+                        }
+                    }
+                    
+                }
+                if (correctFormat === false) {
+                    getUserGuess = document.getElementById("uGuess").value;
+                } else {
+                    valResponse = "Valid response."
+                    document.getElementById("validate").innerHTML = valResponse;
+                }
             }
+        }
     }
+    return potentialSet;
 }
 
 
-def getUserGuess(boardCountUnique)
-
-    potentialSet = []
-    print "Please enter your guess separated by commas (Ex: 1,2,3) or no set: "
-    userGuess = gets.chomp
-
-    if (userGuess == "no set") 
-        potentialSet = [-1]
-
-    else 
-        # Converts user input to an array of string values using "," as the delimeter 
-        userGuess = userGuess.split ","
-
-        # Maps userGuess to an array (called potentialSet) of numerically sorted values
-        potentialSet = userGuess.map {|value| value.to_i}.sort
-
-        # Continues to prompt fo new user input until valid (user input must contain 3 
-        # unique values between 1 and 12 or 1 and 15 depending on number of cards on playing board
-        while (potentialSet.uniq.length != 3) || (potentialSet[0] < 1) || 
-            ((potentialSet[(potentialSet.length) -1] > 12) && (boardCountUnique == 12)) ||
-            ((potentialSet[(potentialSet.length) -1] > 15) && (boardCountUnique == 15))
-            
-            print "Your input was in the incorrect format.\nPlease try again: "
-            userGuess = gets.chomp
-
-            if (userGuess == "no set") 
-                potentialSet = [-1]
-                break
-            else
-                userGuess = gets.split ","
-                potentialSet = userGuess.map {|value| value.to_i}.sort
-            end
-        end
-
-    end
-    potentialSet
-    #print "\n"
-end
