@@ -77,6 +77,32 @@ function removeThreeCards(currentBoard, indexsToRemove) { //When the user passes
   }
 }
 
+function findSet (currentBoard) { 
+                        //This method finds a set on the current Board                            
+                        //returns an array with a Set on the board, or an array with -1 at the first index                         
+  for (var i = 0; i < currentBoard.length-3; i++) {
+    for (var j = i +1; j < currentBoard.length-2; j++) {
+      for (var k = j+1;k<currentBoard.length-1;k++) {
+          var potenSet = [currentBoard[i], currentBoard[j], currentBoard[k]];
+          var foundSet = checkUserMatch(potenSet);
+          if (foundSet) {
+            return potenSet;
+          }
+      }
+    }
+  }
+  return [-1];
+}
+
+function hint (currentBoard) {
+  var set = findSet(currentBoard);
+  if (set.length > 1) {
+    //document.getElementById("hintAnswer").innerText = "One of the cards in the set is " + set[0];
+  } else {
+    //document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
+  }
+}
+
   //DROPDOWN FUNCTIONALITY//
   
   var coll = document.getElementsByClassName("collapsible");
