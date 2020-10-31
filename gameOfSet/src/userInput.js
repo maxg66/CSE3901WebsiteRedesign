@@ -76,6 +76,7 @@ function getNumPlayers() {
     } else {
         document.getElementById("playerError").innerHTML = "";
     }
+    
     return parseInt(players);
 }
 

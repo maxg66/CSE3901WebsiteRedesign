@@ -127,16 +127,25 @@ class Deck {
 
   //DROPDOWN FUNCTIONALITY//
   
-  var coll = document.getElementsByClassName("collapsible");
+var rules = document.getElementById("myRules");
+var btn = document.getElementById("rulesBtn");
 
-  for (let i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var content = this.nextElementSibling;
-      if (content.style.display === "block") {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block";
-      }
-    });
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  rules.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  rules.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == rules) {
+    rules.style.display = "none";
   }
+}
