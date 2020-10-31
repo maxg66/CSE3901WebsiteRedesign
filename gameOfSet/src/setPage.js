@@ -20,13 +20,13 @@ class Deck {
         for (let shape in shapes){
           for (let fill in fills){
             this.deck.push(new Card(colors[color],numbers[number],shapes[shape],fills[fill]));
-             }
-            }
-           }
           }
-    }//end constructor
-  }
-  function loadBoard(deck, currentBoard) {
+        }
+      }
+    }
+  }//end constructor
+
+  loadBoard(deck, currentBoard) {
     for(let i = 0; i<currentBoard.length; i++){
       var randomIndexFromDeck = Math.floor(Math.random() * deck.length);
       var cardToAdd = deck.splice(randomIndexFromDeck,1);
@@ -34,18 +34,18 @@ class Deck {
     }
   }
   
-  function printBoard(currentBoard, playerPoints) {
+  printBoard(currentBoard, playerPoints) {
     //this function can't really be written until we figure out how we want to visually represent cards
   }
   
-  function removeSet(currentBoard, setArray) {
+  removeSet(currentBoard, setArray) {
     setArray.forEach(element => {
       currentBoard[element-1] = null;
       //remove image/text from actual html page
     });
   }
   
-  function addPoints(playerPoints){
+  addPoints(playerPoints) {
     if(playerPoints.length>1){
       //prompt for which player found the set
       //playerNum = input
@@ -53,53 +53,75 @@ class Deck {
       playerNum = 1;
     }
     playerPoints[playerNum-1]++;
-  
   }
 
-function replaceThreeCards(deck, setArray, currentBoard) { //When the user passes the deck, the setArray, which holds the indexs of the set to replace, and the current board,
-                                                          // this function will remove those cards from the current board and add 3 new cards from the deck
-  removeThreeCards(currentBoard, setArray);
-  addThreeCards(deck, setArray, currentBoard);
-}
-
-function addThreeCards(deck, indexsToAdd, currentBoard) { //When the user passes the deck, the indexs where to add cards, and the currentBoard, this function will add 3 random cards from the 
-                                                          //into those spots
-  for (var i = 0; i < 4; i++) {
-      var randomIndexFromDeck = Math.floor(Math.random() * deck.length);
-      var cardToAdd = deck.splice(randomIndexFromDeck,1);
-      currentBoard[indexsToAdd[i]] = cardToAdd[0];
+  replaceThreeCards(deck, setArray, currentBoard) { //When the user passes the deck, the setArray, which holds the indexs of the set to replace, and the current board,
+                                                            // this function will remove those cards from the current board and add 3 new cards from the deck
+    removeThreeCards(currentBoard, setArray);
+    addThreeCards(deck, setArray, currentBoard);
   }
-}
 
-function removeThreeCards(currentBoard, indexsToRemove) { //When the user passes the currentboard and the indexs that need to be removed, this function will remove the cards at those indexs
-  for (var i = 0; i < 4; i++) {
-      currentBoard.splice(indexsToRemove[i],1);
-  }
-}
-
-function findSet (currentBoard) { 
-                        //This method finds a set on the current Board                            
-                        //returns an array with a Set on the board, or an array with -1 at the first index                         
-  for (var i = 0; i < currentBoard.length-3; i++) {
-    for (var j = i +1; j < currentBoard.length-2; j++) {
-      for (var k = j+1;k<currentBoard.length-1;k++) {
-          var potenSet = [currentBoard[i], currentBoard[j], currentBoard[k]];
-          var foundSet = checkUserMatch(potenSet);
-          if (foundSet) {
-            return potenSet;
-          }
-      }
+  addThreeCards(deck, indexsToAdd, currentBoard) { //When the user passes the deck, the indexs where to add cards, and the currentBoard, this function will add 3 random cards from the 
+                                                            //into those spots
+    for (var i = 0; i < 4; i++) {
+        var randomIndexFromDeck = Math.floor(Math.random() * deck.length);
+        var cardToAdd = deck.splice(randomIndexFromDeck,1);
+        currentBoard[indexsToAdd[i]] = cardToAdd[0];
     }
   }
-  return [-1];
-}
 
-function hint (currentBoard) {
-  var set = findSet(currentBoard);
-  if (set.length > 1) {
-    //document.getElementById("hintAnswer").innerText = "One of the cards in the set is " + set[0];
-  } else {
-    //document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
+  removeThreeCards(currentBoard, indexsToRemove) { //When the user passes the currentboard and the indexs that need to be removed, this function will remove the cards at those indexs
+    for (var i = 0; i < 4; i++) {
+        currentBoard.splice(indexsToRemove[i],1);
+    }
+  }
+
+  findSet (currentBoard) { 
+                          //This method finds a set on the current Board                            
+                          //returns an array with a Set on the board, or an array with -1 at the first index                         
+    for (var i = 0; i < currentBoard.length-3; i++) {
+      for (var j = i +1; j < currentBoard.length-2; j++) {
+        for (var k = j+1;k<currentBoard.length-1;k++) {
+            var potenSet = [currentBoard[i], currentBoard[j], currentBoard[k]];
+            var foundSet = checkUserMatch(potenSet);
+            if (foundSet) {
+              return potenSet;
+            }
+        }
+      }
+    }
+    return [-1];
+  }
+
+  hint (currentBoard) {
+    var set = findSet(currentBoard);
+    if (set.length > 1) {
+      //document.getElementById("hintAnswer").innerText = "One of the cards in the set is " + set[0];
+    } else {
+      //document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
+    }
+  }
+
+  // Returns true if player's chosen group of three cards is a set; returns false otherwise
+  checkUserMatch(positionSet) {
+    let attributeCounts = [];
+
+    // Checks the number of unique values in each attribute type (color, number, shape, and fill) 
+    // and if any of these attributes has 2 unique values, the potential match is not a valid set 
+    let duplicateFound = false;
+    function unique (elt,i,a) {
+      return a.indexOf(elt) === index;
+    }
+    attributeCounts.push(positionSet.color.filter(unique).length);
+    attributeCounts.push(positionSet.number.filter(unique).length);
+    attributeCounts.push(positionSet.shape.filter(unique).length);
+    attributeCounts.push(positionSet.fill.filter(unique).length);
+
+    match = true
+    if (attributeCounts.indexOf(2) >= 0) {
+      match = false;
+    }
+    return match;
   }
 }
 

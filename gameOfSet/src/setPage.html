@@ -1,92 +1,103 @@
 <!DOCTYPE html>
 <html>
    <head>
+      <meta charset="utf-8">
       <link rel="stylesheet" href="stylesheets/setPage.css">
-      <script src ="./setPage.js"></script>
-      <script src ="./userInput.js"></script>
+      <script src="./setPage.js" defer></script>
+      <script src="./userInput.js" defer></script>
     </head>
-<body>
 
-<h1 class="center">The Game of Set</h1>
+   <body>
 
-<table class="center">
-   <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-   </tr>
-   <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-   </tr>
-   <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-   </tr>
-   <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-   </tr>
-</table>
+   <h1 class="center">The Game of Set</h1>
 
-</br>
-</br>
+   <table class="center">
+      <tr>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+      </tr>
+      <tr>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+      </tr>
+      <tr>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+      </tr>
+      <tr>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+      </tr>
+   </table>
 
-<p>Please enter your guess separated by commas (Ex: 1,2,3) or no set: </p>
-<!----<p id= "hintAnswer"></p> -->
-<div>
-   <label for="uGuess" >Your Guess:</label>
-   <input type="text" id="uGuess" name="uGuess"><br><br>
- </div>
+   </br>
+   </br>
 
-<div>
- <input type="submit" onclick="getUserGuess()" value="Check">
- <button id="myBtn">Rules</button>
-</div>
+   <!--Prompts user for number of players-->
+   <div>
+      <p id=welcome></p>
+      <label for="players" >Number of Players: </label>
+      <input type="text" id="numPlayers" oninput="getNumPlayers()"><br><br>
+      <p id=playerError></p>
+   </div>
 
-<p id=validate></p>
+   <p>Please enter your guess separated by commas (Ex: 1,2,3) or no set: </p>
+   <!----<p id= "hintAnswer"></p> -->
+   <div>
+      <label for="Guess" >Your Guess:</label>
+      <input id="uGuess"><br><br>
+   </div>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+   <div>
+      <button type="button" onclick="getUserGuess(12)">Submit</button>
+      <!--input type="submit" onclick="getUserGuess()" value="Check"-->
+      <button id="myBtn">Rules</button>
+   </div>
 
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <pre>
-      The objective of this game is create a set of 3 cards from the 12 on the board.
-      <strong>
-      Each card has 4 properties:
+   <p id="validate"></p>
+
+   <!-- The Modal -->
+   <div id="myModal" class="modal">
+
+   <!-- Modal content -->
+   <div class="modal-content">
+      <span class="close">&times;</span>
+      <pre>
+         The objective of this game is create a set of 3 cards from the 12 on the board.
+         <strong>
+         Each card has 4 properties:
+            
+            Color - Red, Green, or Purple
+            Number of Shapes - 1, 2, or 3
+            Shape - Oval, Squiggle, or Diamond
+            Shading - Solid, Partial, Outlined
+            </strong>
+            <i>Ex: green | one | oval | empty 
+            This would be a card with the properties of green for color, one for number of shapes, oval for shape, and empty for shading.</i>
          
-         Color - Red, Green, or Purple
-         Number of Shapes - 1, 2, or 3
-         Shape - Oval, Squiggle, or Diamond
-         Shading - Solid, Partial, Outlined
-         </strong>
-         <i>Ex: green | one | oval | empty 
-         This would be a card with the properties of green for color, one for number of shapes, oval for shape, and empty for shading.</i>
-      
-      ~ A Set consists of 3 cards in which each of the card's properties is the same on each card or different on each card. ~
-      
-      <b>The Play</b>
-      The deck of 81 cards is shuffled and then 12 are displayed.
-      There are no turns - any player can then call out a set when they find one.
-      If correct, the Set is removed and 1 point is awarded to the player that found the set.
-      The player that found the sent would then enter their Player Number when prompted.
-      Then, 3 new cards from the deck replace the cards just removed.
-      If incorrect, the cards remain on the board.
-      If all players agree that a set cannot be found, 3 new cards are added to the board creating a board of 15 cards total.
-      Once a set is found from 15 cards, no new cards are dealt and the game countines with the remaining 12 cards on the board.
-      The game ends when the deck has been depleted. The player with the most points at this time wins!
-    </pre>
-  </div>
+         ~ A Set consists of 3 cards in which each of the card's properties is the same on each card or different on each card. ~
+         
+         <b>The Play</b>
+         The deck of 81 cards is shuffled and then 12 are displayed.
+         There are no turns - any player can then call out a set when they find one.
+         If correct, the Set is removed and 1 point is awarded to the player that found the set.
+         The player that found the sent would then enter their Player Number when prompted.
+         Then, 3 new cards from the deck replace the cards just removed.
+         If incorrect, the cards remain on the board.
+         If all players agree that a set cannot be found, 3 new cards are added to the board creating a board of 15 cards total.
+         Once a set is found from 15 cards, no new cards are dealt and the game countines with the remaining 12 cards on the board.
+         The game ends when the deck has been depleted. The player with the most points at this time wins!
+      </pre>
+   </div>
 
-</div>
-</body>
+   </div>
+   </body>
 </html>
