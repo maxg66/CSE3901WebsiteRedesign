@@ -80,4 +80,3 @@ function getNumPlayers() {
     return parseInt(players);
 }
 
-
