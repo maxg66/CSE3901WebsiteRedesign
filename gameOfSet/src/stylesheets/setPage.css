@@ -1,3 +1,6 @@
+body{
+  background-color:black;
+}
 table, th, td {
   border: 1px solid black;
   height: 50px;
@@ -5,11 +8,26 @@ table, th, td {
 }
 h1,div,p {
 text-align: center;
+font-family: "Montserrat", sans-serif;
+color:white;
 }
+#rulesBtn, #submitBtn{
+  background-color: white;
+   border: none;
+   color: black;
+   padding: 5px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin: 4px 2px;
+   cursor: pointer;
+ }
 
-.center {
-margin-left: auto;
-margin-right: auto;
+center{
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Montserrat", sans-serif
 }
 
 #uGuess {
@@ -19,6 +37,7 @@ margin-right: auto;
 #validate, #playerError {
   color: red;
   font-style: italic;
+  font-family: "Montserrat", sans-serif
 }
 
 /* The Modal*/
@@ -30,21 +49,23 @@ margin-right: auto;
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0,0,0); 
-  background-color: rgba(0,0,0,0.4); /
+  background-color: rgba(0,0,0,0.4);
 }
 
 /* Modal Content/Box */
 .modal-content {
+  color:black;
   background-color: #fefefe;
   text-align: left;
   margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  padding: 10px;
   border: 1px solid rgb(0, 0, 0);
   width: 80%; /* Could be more or less, depending on screen size */
 }
 pre{
-  font-family: "Josefin Sans";
+  font-family: "Montserrat", sans-serif
 }
 
 /* The Close Button */
