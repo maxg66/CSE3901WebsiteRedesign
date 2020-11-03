@@ -38,11 +38,13 @@
       </tr>
    </table>
 
+   <p id=setMessage></p>
+
    <!--Prompts user for number of players-->
    <div>
-      <p id=welcome></p>
+      <p id=welcome>Welcome to the Game of Set! How many players will be playing today?</p>
       <label for="players" >Number of Players: </label>
-      <input type="text" id="numPlayers" oninput="getNumPlayers()"><br><br>
+      <input type="text" id="numPlayers"><br><br>
       <p id=playerError></p>
    </div>
 
@@ -54,7 +56,7 @@
    </div>
 
    <div>
-      <button type="button"id ="submitBtn" onclick="getUserGuess(12)">Submit</button>
+      <button type="button" id ="submitBtn">Submit</button>
       <!--input type="submit" onclick="getUserGuess()" value="Check"-->
       <button id="rulesBtn">Rules</button>
    </div>

@@ -1,6 +1,6 @@
 
 // Prompts user for a new guess
-function getUserGuess(boardCountUnique) {
+function getUserGuess() {
     let potentialSet = [];
     let valResponse = "";
     let userGuess = document.getElementById("uGuess").value;
@@ -44,7 +44,7 @@ function getUserGuess(boardCountUnique) {
                 document.getElementById("validate").innerHTML = valResponse;
 
             // Check for entries out of numerical bounds
-            } else if (potentialSet[0] < 1 || (potentialSet[potentialSet.length - 1] > 12 && boardCountUnique == 12) || (potentialSet[potentialSet.length - 1] > 15 && boardCountUnique == 15)) {
+            } else if (potentialSet[0] < 1 || (potentialSet[potentialSet.length - 1] > this.currentBoard.length)) {
                 valResponse = "One or more of your guess values are out of bounds. Please try again.";
                 document.getElementById("validate").innerHTML = valResponse;
             
@@ -61,22 +61,5 @@ function getUserGuess(boardCountUnique) {
         }
     }
     return potentialSet;
-}
-
-
-// Prompts the user to enter the number of players for the current game
-function getNumPlayers() {
-
-    document.getElementById("welcome").innerHTML = "Welcome to the Game of Set!\nHow many players will be playing today?\n";
-
-    let players = document.getElementById("numPlayers").value;
-
-    if (isNaN(players) || players <= 0) {
-        document.getElementById("playerError").innerHTML = "Invalid player number";
-    } else {
-        document.getElementById("playerError").innerHTML = "";
-    }
-    
-    return parseInt(players);
-}
+  }
 

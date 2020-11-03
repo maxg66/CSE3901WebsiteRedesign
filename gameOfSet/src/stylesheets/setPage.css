@@ -5,8 +5,21 @@ table, th, td {
   border: 1px solid black;
   height: 50px;
   width: 200px;
-
 }
+
+td {
+  transform: scale(1);
+}
+
+td:active {
+  transform: scale(.96);
+  transition: transform .2s;
+}
+
+.cardBorder {
+  border: 7px solid red;
+}
+
 h1,div,p {
 text-align: center;
 font-family: "Montserrat", sans-serif;
