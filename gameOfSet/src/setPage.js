@@ -65,6 +65,7 @@ class Deck {
     }
   }
 
+  /*--------------- NEEDS WORK -----------*/
   addPoints(playerPoints) {
     if(playerPoints.length>1){
       //prompt for which player found the set
@@ -75,8 +76,10 @@ class Deck {
     playerPoints[playerNum-1]++;
   }
 
-  handleSet(foundSet) { //When the user passes the deck, the setArray, which holds the indexs of the set to replace, and the current board,
-                                                            // this function will remove those cards from the current board and add 3 new cards from the deck
+
+  // When a set is found, this method removes the set from the current board and replaces
+  // those three cards with 3 new cards from the deck if the deck has at least 3 remaining cards
+  handleSet(foundSet) { 
     
     // Remove three cards in set from board and replace them with three new cards from deck                                                        
     if (this.deck.length > 3) {
@@ -92,23 +95,21 @@ class Deck {
     }
   }
 
-  addThreeCards(deck, indexsToAdd, currentBoard) { //When the user passes the deck, the indexs where to add cards, and the currentBoard, this function will add 3 random cards from the 
-                                                            //into those spots
-    for (var i = 0; i < 4; i++) {
-        var randomIndexFromDeck = Math.floor(Math.random() * deck.deck.length);
-        var cardToAdd = deck.deck.splice(randomIndexFromDeck,1);
-        currentBoard[indexsToAdd[i]] = cardToAdd[0];
+  // Adds three cards to the deck when no set can be found on current playing board
+  addThreeCards() { 
+    for (let i = 0; i < 3; i++) {
+        this.currentBoard.push(this.deck.pop());
     }
   }
 
-  findSet (currentBoard) { 
-                          //This method finds a set on the current Board                            
-                          //returns an array with a Set on the board, or an array with -1 at the first index                         
-    for (var i = 0; i < currentBoard.length-3; i++) {
-      for (var j = i +1; j < currentBoard.length-2; j++) {
-        for (var k = j+1;k<currentBoard.length-1;k++) {
-            var potenSet = [currentBoard[i], currentBoard[j], currentBoard[k]];
-            var foundSet = checkUserMatch(potenSet);
+  // This method returns a position array of the first found set on the current board 
+  // or [-1] if no set exists on the current board
+  findSet() {                         
+    for (let i = 0; i < this.currentBoard.length-3; i++) {
+      for (let j = i +1; j < this.currentBoard.length-2; j++) {
+        for (let k = j+1; k < this.currentBoard.length-1;k++) {
+            let potenSet = [i, j, k];
+            let foundSet = this.checkUserMatch(potenSet);
             if (foundSet) {
               return potenSet;
             }
@@ -127,15 +128,14 @@ class Deck {
     }
   }
 
-  // Returns true if player's chosen group of three cards is a set; returns false otherwise
+  // Checks if the user's guess is a set and executes appropriate actions of removing and replacing the found
+  // set if the user guess is indeed a match
   checkUserMatch(positionSet) {
     let attributeCounts = [];
-    console.log(positionSet[0]);
 
     let cardSet = [];
     for (let i = 0; i < positionSet.length; i++) {
       cardSet.push(this.currentBoard[positionSet[i]]);
-      console.log(cardSet[i]);
     }
 
     // Color check
@@ -183,36 +183,10 @@ class Deck {
   }
 }
 
-  //DROPDOWN FUNCTIONALITY//
-  
-//var rules = document.getElementById("myRules");
-var btn = document.getElementById("rulesBtn"); 
-
-// Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
-
-// When the user clicks on the button, open the modal
-btn.onclick = function() {
-  rules.style.display = "block";
-}
-
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  rules.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-/*window.onclick = function(event) {
-  if (event.target == rules) {
-    rules.style.display = "none";
-  }
-}*/
 
 
 
-
-
-// MAIN 
+// CODE OUTSIDE OF THE CARD AND DECK CLASSES
 let fullDeck = new Deck();
 
 fullDeck.generateDeck();
@@ -244,7 +218,6 @@ players.addEventListener("keypress", function (e) {
       playerNum = players;
     }
 
-    // document.getElementById("welcome").innerHTML = "DONE";
     return parseInt(players);
   }
   
@@ -258,21 +231,23 @@ for (let i = 0; i < fullDeck.currentBoard.length; i++) {
   });
 }
 
+
 let numClickedCards = 0;
 let potentialSet = [];
+// Processes a user guess when user selects three cards on the current board (**all card selections
+// must be unique to be processed**)
 function clickCard() {
   if (numClickedCards == 0) {
     numClickedCards++;
     potentialSet[0] = parseInt(this.id.substring(5, this.id.length));
 
-  } else if (numClickedCards == 1) {
+  } else if (numClickedCards == 1 && !(potentialSet.includes(parseInt(this.id.substring(5, this.id.length))))) {
     numClickedCards++;
     potentialSet[1] = parseInt(this.id.substring(5, this.id.length));
 
-  } else if (numClickedCards == 2) {
+  } else if (numClickedCards == 2 && !(potentialSet.includes(parseInt(this.id.substring(5, this.id.length))))) {
     numClickedCards++;  // reset number of clicked cards to zero
     potentialSet[2] = parseInt(this.id.substring(5, this.id.length));
-    console.log(potentialSet[0]);
     fullDeck.checkUserMatch(potentialSet);
     
     for (let i = 0; i < potentialSet.length; i++) {
@@ -285,12 +260,54 @@ function clickCard() {
   } 
 }
 
-// Adds event listener for user guessing to each of the cards on the current board (table cells)
+// Adds event listener for processing a user guess on the current board
 for (let i = 0; i < fullDeck.currentBoard.length; i++) {
   document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
 }
 
 
+// Checks if no set exists on current board
+function checkNoSet() {
+  if (fullDeck.findSet().length != 3) {
+    document.getElementById("setMessage").innerHTML = "Incorrect. There is a set on the current board.";
+
+  } else {
+    document.getElementById("setMessage").innerHTML = "Correct! Let's deal three more cards.";
+    fullDeck.addThreeCards();
+    fullDeck.printBoard();
+  }
+}
+
+// Add event listener to check if no set exists on current board when user clicks the "No Set" button 
+let noSetButton = document.getElementById("noSetBtn");
+noSetButton.addEventListener("click", checkNoSet);
+
+
+
+//DROPDOWN FUNCTIONALITY//
+  
+//var rules = document.getElementById("myRules");
+var btn = document.getElementById("rulesBtn"); 
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  rules.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  rules.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+/*window.onclick = function(event) {
+  if (event.target == rules) {
+    rules.style.display = "none";
+  }
+}*/
 //while (fullDeck.deck.length > 0) {
   
 //}

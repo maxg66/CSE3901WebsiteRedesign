@@ -11,6 +11,14 @@
 
    <h1 class="center">The Game of Set</h1><br>
 
+   <!--Prompts user for number of players-->
+   <div>
+      <p id=welcome>Welcome to the Game of Set! How many players will be playing today?</p>
+      <label for="players" >Number of Players: </label>
+      <input type="text" id="numPlayers"><br><br>
+      <p id=playerError></p>
+   </div>
+
    <table class="center">
       <tr>
          <td id="card 0"></td>
@@ -40,24 +48,11 @@
 
    <p id=setMessage></p>
 
-   <!--Prompts user for number of players-->
-   <div>
-      <p id=welcome>Welcome to the Game of Set! How many players will be playing today?</p>
-      <label for="players" >Number of Players: </label>
-      <input type="text" id="numPlayers"><br><br>
-      <p id=playerError></p>
-   </div>
 
-   <p>Please enter your guess separated by commas (Ex: 1,2,3) or no set: </p>
    <!----<p id= "hintAnswer"></p> -->
-   <div>
-      <label for="Guess" >Your Guess:</label>
-      <input id="uGuess"><br><br>
-   </div>
 
    <div>
-      <button type="button" id ="submitBtn">Submit</button>
-      <!--input type="submit" onclick="getUserGuess()" value="Check"-->
+      <button type="button" id="noSetBtn">No Set</button>
       <button id="rulesBtn">Rules</button>
    </div>
 
