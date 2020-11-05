@@ -1,3 +1,4 @@
+//Declare Card Class
 class Card {
   constructor(color,number,shape,fill){
     this.color = color;
@@ -11,24 +12,25 @@ class Card {
   }
 }
 
+//Declare Deck Class
 class Deck {
-
   constructor() {
     this.deck = new Array();
     this.currentBoard = new Array(12);
   }
 
+//Method to populate deck
   generateDeck() {
-    const colors = ['red', 'green', 'purple'];
-    const numbers = ['one', 'two', 'three'];
-    const shapes = ['oval', 'diamond','squiggle'];
-    const fills = ['empty', 'partial', 'full'];
+    const colors = ['red', 'green', 'purple']; //Define Color
+    const numbers = ['one', 'two', 'three']; //Define Numbers
+    const shapes = ['oval', 'diamond','squiggle']; //Define Shapes
+    const fills = ['empty', 'partial', 'full']; //Define Fills
     
     for (let color in colors){
       for (let number in numbers){
         for (let shape in shapes){
           for (let fill in fills){
-            this.deck.push(new Card(colors[color],numbers[number],shapes[shape],fills[fill]));
+            this.deck.push(new Card(colors[color],numbers[number],shapes[shape],fills[fill])); //create ind
           }
         }
       }
@@ -68,7 +70,6 @@ class Deck {
     }
   }
 
-  /*--------------- NEEDS WORK -----------*/
   addPoints(playerPoints) {
     if(playerPoints.length>1){
       //prompt for which player found the set
@@ -347,7 +348,7 @@ noSetButton.addEventListener("click", checkNoSet);
 
 
 
-//DROPDOWN FUNCTIONALITY//
+//MODAL FUNCTIONALITY//
   
 //var rules = document.getElementById("myRules");
 var btn = document.getElementById("rulesBtn"); 
@@ -365,12 +366,3 @@ span.onclick = function() {
   rules.style.display = "none";
 }
 
-// When the user clicks anywhere outside of the modal, close it
-/*window.onclick = function(event) {
-  if (event.target == rules) {
-    rules.style.display = "none";
-  }
-}*/
-//while (fullDeck.deck.length > 0) {
-  
-//}
