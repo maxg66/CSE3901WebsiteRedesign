@@ -6,6 +6,9 @@ class Card {
     this.fill = fill;
     this.image = "setImages/"+color+number+shape+fill+".JPG"
   }
+  printCard() {
+    return this.number + " " + this.color + " " + this.shape + " with a fill of " + this.fill;
+  }
 }
 
 class Deck {
@@ -109,7 +112,7 @@ class Deck {
       for (let j = i +1; j < this.currentBoard.length-2; j++) {
         for (let k = j+1; k < this.currentBoard.length-1;k++) {
             let potenSet = [i, j, k];
-            let foundSet = this.checkUserMatch(potenSet);
+            let foundSet = this.checkMatch(potenSet);
             if (foundSet) {
               return potenSet;
             }
@@ -119,12 +122,12 @@ class Deck {
     return [-1];
   }
 
-  hint (currentBoard) {
-    var set = findSet(currentBoard);
+  hint () {
+    var set = this.findSet();
     if (set.length > 1) {
-      //document.getElementById("hintAnswer").innerText = "One of the cards in the set is " + set[0];
+      document.getElementById("hintAnswer").innerText = "One of the cards in the set is the one with " + this.currentBoard[set[0]].printCard();
     } else {
-      //document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
+      document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
     }
   }
 
@@ -181,7 +184,61 @@ class Deck {
       document.getElementById("setMessage").innerHTML = "That is not a set. Please try again.";
     }
   }
+
+  checkMatch(positionSet) {
+    let attributeCounts = [];
+
+    let cardSet = [];
+    for (let i = 0; i < positionSet.length; i++) {
+      cardSet.push(this.currentBoard[positionSet[i]]);
+    }
+
+    // Color check
+    let temp = [];
+    for (let i = 0; i < cardSet.length; i++) {
+      if (!temp.includes(cardSet[i].color)) {
+        temp.push(cardSet[i].color);
+      }
+    }
+    attributeCounts.push(temp.length);
+
+    // Number check
+    temp = [];
+    for (let i = 0; i < cardSet.length; i++) {
+      if (!temp.includes(cardSet[i].number)) {
+        temp.push(cardSet[i].number);
+      }
+    }
+    attributeCounts.push(temp.length);
+
+    // Shape check
+    temp = [];
+    for (let i = 0; i < cardSet.length; i++) {
+      if (!temp.includes(cardSet[i].shape)) {
+        temp.push(cardSet[i].shape);
+      }
+    }
+    attributeCounts.push(temp.length);
+
+    // Fill check
+    temp = [];
+    for (let i = 0; i < cardSet.length; i++) {
+      if (!temp.includes(cardSet[i].fill)) {
+        temp.push(cardSet[i].fill);
+      }
+    }
+    attributeCounts.push(temp.length);
+
+    if (attributeCounts.indexOf(2) < 0) {
+      return true;
+    } else {
+     return false;
+    }
+  }
+
 }
+
+
 
 
 
@@ -197,6 +254,12 @@ let lockBoard = false;
 
 let playerNum = 1;  // holds number of players
 let players = document.getElementById("numPlayers");
+
+let hintButton = document.getElementById("hintBtn");
+
+hintButton.addEventListener("click", function() {
+  fullDeck.hint();
+})
 
 // Prompts the user to enter the number of players for the current game
 players.addEventListener("keypress", function (e) {
@@ -268,7 +331,7 @@ for (let i = 0; i < fullDeck.currentBoard.length; i++) {
 
 // Checks if no set exists on current board
 function checkNoSet() {
-  if (fullDeck.findSet().length != 3) {
+  if (fullDeck.findSet().length > 1) {
     document.getElementById("setMessage").innerHTML = "Incorrect. There is a set on the current board.";
 
   } else {
