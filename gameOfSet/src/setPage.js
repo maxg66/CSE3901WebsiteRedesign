@@ -81,22 +81,34 @@ class Deck {
   }
 
 
-  // When a set is found, this method removes the set from the current board and replaces
-  // those three cards with 3 new cards from the deck if the deck has at least 3 remaining cards
-  handleSet(foundSet) { 
-    
-    // Remove three cards in set from board and replace them with three new cards from deck                                                        
-    if (this.deck.length > 3) {
-      for (let i = 0; i < 3; i++) {
-        this.currentBoard.splice(foundSet[i],1,this.deck.pop());
+  // When a set is found, this method prints a message to the user, removes the set from the current
+  // board, and replaces those three cards with 3 new cards from the deck if the deck has at least 3 
+  // remaining cards; If no set is found, a message is simply printed in the browser.
+  handleUserGuess(positionSet) { 
+
+    let guessIsSet = this.checkUserMatch(positionSet);
+
+    // Handle found set if user's guess is a set
+    if (guessIsSet) {
+      document.getElementById("setMessage").innerHTML = "Set found!";
+
+      // Remove three cards in set from board and replace them with three new cards from deck                                                        
+      if (this.deck.length > 3) {
+        for (let i = 0; i < 3; i++) {
+          this.currentBoard.splice(positionSet[i],1,this.deck.pop());
+        }
+        // Simply remove cards in found set if no more cards in deck to deal
+      } else {
+        for (let i = 0; i < 3; i++) {
+          this.currentBoard.splice(positionSet[i],1);
+        }
       }
 
-      // Simply remove cards in found set if no more cards in deck to deal
+      // Print message to browser if the user's guess is not a set
     } else {
-      for (let i = 0; i < 3; i++) {
-        this.currentBoard.splice(foundSet[i],1);
-      }
+      document.getElementById("setMessage").innerHTML = "That is not a set. Please try again.";
     }
+    
   }
 
   // Adds three cards to the deck when no set can be found on current playing board
@@ -113,7 +125,7 @@ class Deck {
       for (let j = i +1; j < this.currentBoard.length-2; j++) {
         for (let k = j+1; k < this.currentBoard.length-1;k++) {
             let potenSet = [i, j, k];
-            let foundSet = this.checkMatch(potenSet);
+            let foundSet = this.checkUserMatch(potenSet);
             if (foundSet) {
               return potenSet;
             }
@@ -123,70 +135,19 @@ class Deck {
     return [-1];
   }
 
+  // Provides hint to user about one of the cards in a set on the current playing board if a set exists, 
+  // otherwise
   hint () {
     var set = this.findSet();
     if (set.length > 1) {
-      document.getElementById("hintAnswer").innerText = "One of the cards in the set is the one with " + this.currentBoard[set[0]].printCard();
+      document.getElementById("hintAnswer").innerText = "A set exists on the board with: " + this.currentBoard[set[0]].printCard();
     } else {
-      document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
+      document.getElementById("hintAnswer").innerText = "There are no sets on the board. Press the \"no set\" button.";
     }
   }
 
-  // Checks if the user's guess is a set and executes appropriate actions of removing and replacing the found
-  // set if the user guess is indeed a match
+  // Returns true if the user's guess is a set; otherwise, returns false
   checkUserMatch(positionSet) {
-    let attributeCounts = [];
-
-    let cardSet = [];
-    for (let i = 0; i < positionSet.length; i++) {
-      cardSet.push(this.currentBoard[positionSet[i]]);
-    }
-
-    // Color check
-    let temp = [];
-    for (let i = 0; i < cardSet.length; i++) {
-      if (!temp.includes(cardSet[i].color)) {
-        temp.push(cardSet[i].color);
-      }
-    }
-    attributeCounts.push(temp.length);
-
-    // Number check
-    temp = [];
-    for (let i = 0; i < cardSet.length; i++) {
-      if (!temp.includes(cardSet[i].number)) {
-        temp.push(cardSet[i].number);
-      }
-    }
-    attributeCounts.push(temp.length);
-
-    // Shape check
-    temp = [];
-    for (let i = 0; i < cardSet.length; i++) {
-      if (!temp.includes(cardSet[i].shape)) {
-        temp.push(cardSet[i].shape);
-      }
-    }
-    attributeCounts.push(temp.length);
-
-    // Fill check
-    temp = [];
-    for (let i = 0; i < cardSet.length; i++) {
-      if (!temp.includes(cardSet[i].fill)) {
-        temp.push(cardSet[i].fill);
-      }
-    }
-    attributeCounts.push(temp.length);
-
-    if (attributeCounts.indexOf(2) < 0) {
-      document.getElementById("setMessage").innerHTML = "Set found!";
-      this.handleSet(positionSet);
-    } else {
-      document.getElementById("setMessage").innerHTML = "That is not a set. Please try again.";
-    }
-  }
-
-  checkMatch(positionSet) {
     let attributeCounts = [];
 
     let cardSet = [];
@@ -236,7 +197,6 @@ class Deck {
      return false;
     }
   }
-
 }
 
 
@@ -312,7 +272,7 @@ function clickCard() {
   } else if (numClickedCards == 2 && !(potentialSet.includes(parseInt(this.id.substring(5, this.id.length))))) {
     numClickedCards++;  // reset number of clicked cards to zero
     potentialSet[2] = parseInt(this.id.substring(5, this.id.length));
-    fullDeck.checkUserMatch(potentialSet);
+    fullDeck.handleUserGuess(potentialSet);
     
     for (let i = 0; i < potentialSet.length; i++) {
       let cardInSet = document.getElementById("card " + potentialSet[i]);

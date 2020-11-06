@@ -52,7 +52,7 @@ font-size: 30px;
  }
 
  /*button styling for hover fucntionality*/
-#rulesBtn:hover,#noSetBtn:hover {
+#rulesBtn:hover,#hintBtn:hover,#noSetBtn:hover {
   background-color:	#C0C0C0; /* Gray */
   color: black;
 }
