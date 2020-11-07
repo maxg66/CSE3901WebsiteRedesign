@@ -70,15 +70,25 @@ class Deck {
     }
   }
 
-  addPoints(playerPoints) {
-    if(playerPoints.length>1){
-      //prompt for which player found the set
-      //playerNum = input
-    } else {
-      playerNum = 1;
+  isPlayer (player, numbOfPlayers) {
+    for (var i = 1; i <= numbOfPlayers; i++) {
+        if (player == i) {
+            return true;
+        }
     }
-    playerPoints[playerNum-1]++;
+    return false;
   }
+
+  addPoints(numbOfPlayers) {
+    var playerGotSet = prompt("Please enter which player won the point", "");
+    while (!this.isPlayer(playerGotSet,numbOfPlayers)) {
+      playerGotSet = prompt("Invalid Entry, Please enter which player won the point", "");
+    }
+    var score = document.getElementById(playerGotSet+ "score").innerHTML;
+    score++;
+    document.getElementById(playerGotSet+ "score").innerHTML = score;
+  }
+
 
 
   // When a set is found, this method prints a message to the user, removes the set from the current
@@ -140,9 +150,15 @@ class Deck {
   hint () {
     var set = this.findSet();
     if (set.length > 1) {
-      document.getElementById("hintAnswer").innerText = "A set exists on the board with: " + this.currentBoard[set[0]].printCard();
+      document.getElementById("hintAnswer").innerText = "One of the cards in the set is has a light green border now";
+      let cardInHint = document.getElementById("card " + set[0]);
+      cardInHint.classList.add("hintBorder");
+      setTimeout(function() {
+        cardInHint.classList.remove("hintBorder");
+        document.getElementById("hintAnswer").innerText = "";
+      }, 4000)
     } else {
-      document.getElementById("hintAnswer").innerText = "There are no sets on the board. Press the \"no set\" button.";
+      document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
     }
   }
 
@@ -234,8 +250,14 @@ players.addEventListener("keypress", function (e) {
     } else {
       if (players == 1) {
         document.getElementById("playerError").innerHTML = "This game will have " + players + " player.";
+        document.getElementById("scoreDiv").innerHTML = "<p>Player 1: <span id = '1score' >0</span></p>";
       } else {
         document.getElementById("playerError").innerHTML = "This game will have " + players + " players.";
+        var i = 1;
+        while (i <= players) {
+            document.getElementById("scoreDiv").innerHTML += "<p>Player " + i + ": <span id = '" + i + "score' >0</span></p>";
+            i++;
+        } 
       }
       document.getElementById("numPlayers").disabled = true;
       document.getElementById("welcome").innerHTML = "";

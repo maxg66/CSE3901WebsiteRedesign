@@ -24,6 +24,10 @@ td:active {
   border: 7px solid red;
 }
 
+.hintBorder {
+  border: 7px solid rgb(72, 255, 0);
+}
+
 /*general text styling*/
 h1,div,p {
 text-align: center;
