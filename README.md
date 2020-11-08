@@ -19,3 +19,6 @@ Instructions:
 3. To select cards you believe are a set, click on the image for each card. Once three cards have been selected, you will be notified if the cards you selected are a set and if they are, they will be replaced with three new random remaining cards from the deck. To get help finding a set, you can press the hint button to see one of the cards in the set. The game completes when all cards are depleted from the deck and no matches exist on the current playing board. For more information aobut the rules of the game, press the rules button.
 
 4. Have fun playing the Game of Set!
+
+For testing:
+This project uses jest for unit testing. If jest is not yet installed, run 'npm i --save-dev jest' in the command line. Then you will be able to run 'npm test' to run the test suite.
