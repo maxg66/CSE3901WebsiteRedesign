@@ -10,6 +10,7 @@ class Card {
   printCard() {
     return this.number + " " + this.color + " " + this.shape + " with a fill of " + this.fill;
   }
+
 }
 
 //Declare Deck Class
