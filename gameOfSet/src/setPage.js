@@ -150,7 +150,7 @@ class Deck {
   hint () {
     var set = this.findSet();
     if (set.length > 1) {
-      document.getElementById("hintAnswer").innerText = "One of the cards in the set is has a light green border now";
+      document.getElementById("hintAnswer").innerText = "Hint: The card with a light green border is part of a set.";
       let cardInHint = document.getElementById("card " + set[0]);
       cardInHint.classList.add("hintBorder");
       setTimeout(function() {
@@ -158,7 +158,7 @@ class Deck {
         document.getElementById("hintAnswer").innerText = "";
       }, 4000)
     } else {
-      document.getElementById("hintAnswer").innerText = "There are no sets on the board, Press the button to add 3 more cards";
+      document.getElementById("hintAnswer").innerText = "There are no sets on the board. Press the \"No Set\" button to add three cards to the board.";
     }
   }
 
