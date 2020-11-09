@@ -105,11 +105,12 @@ class Deck {
       document.getElementById("setMessage").innerHTML = "Set found!";
 
       // Remove three cards in set from board and replace them with three new cards from deck                                                        
-      if (this.deck.length > 3) {
+      if (this.deck.length > 3 && this.currentBoard.length == 12) {
         for (let i = 0; i < 3; i++) {
           this.currentBoard.splice(positionSet[i],1,this.deck.pop());
         }
-        // Simply remove cards in found set if no more cards in deck to deal
+
+      // Simply remove cards in found set if no more cards or set found on board of 15 cards
       } else {
         for (let i = 0; i < 3; i++) {
           this.currentBoard.splice(positionSet[i],1);
@@ -309,12 +310,12 @@ function checkNoSet() {
     fullDeck.printBoard();
 
     // Adds event listener for processing a user guess on the current board for additional 3 cards
-    for (let i = 13; i < document.getElementsByTagName("td").length; i++) {
+    for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
       document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
     }
 
     // Adds event listener for border around cards when clicked to additional 3 cards
-    for (let i = 13; i < document.getElementsByTagName("td").length; i++) {
+    for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
       document.getElementsByTagName("td")[i].addEventListener("click", function() {
         this.classList.add("cardBorder");
       });
@@ -341,7 +342,7 @@ resetBtn.addEventListener("click", function() {
   hintClicked = false;
 
   // Remove border around all cards
-  for (let i = 0; i < document.getElementsByTagName("td").length; i++) {
+  for (let i = 0; i < document.getElementsByTagName("td").length - 1; i++) {
     let cardInSet = document.getElementById("card " + i);
     cardInSet.classList.remove("cardBorder");
   }
