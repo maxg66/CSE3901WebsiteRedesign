@@ -96,7 +96,13 @@ class Deck {
   // board, and replaces those three cards with 3 new cards from the deck if the deck has at least 3 
   // remaining cards; If no set is found, a message is simply printed in the browser.
   // Returns true if user guess is a set and false otherwise.
-  handleUserGuess(positionSet) { 
+  handleUserGuess(positionSet) {
+    
+    // Remove border around selected cards
+    for (let i = 0; i < positionSet.length; i++) {
+      let cardInSet = document.getElementById("card " + positionSet[i]);
+      cardInSet.classList.remove("cardBorder");
+    }
 
     let guessIsSet = this.checkUserMatch(positionSet);
 
@@ -280,12 +286,6 @@ function clickCard() {
       }
       document.getElementById("score").innerHTML = "Score: " + userScore;
     } 
-    
-    // Remove border around selected cards
-    for (let i = 0; i < potentialSet.length; i++) {
-      let cardInSet = document.getElementById("card " + potentialSet[i]);
-      cardInSet.classList.remove("cardBorder");
-    }
 
     potentialSet = [];
     fullDeck.printBoard();
@@ -305,9 +305,22 @@ function checkNoSet() {
     document.getElementById("setMessage").innerHTML = "Incorrect. There is a set on the current board.";
 
   } else {
+    potentialSet = [];
+    numClickedCards = 0;
     document.getElementById("setMessage").innerHTML = "Correct! Let's deal three more cards.";
     fullDeck.addThreeCards();
     fullDeck.printBoard();
+
+    // Update user's score if set is found
+    if (hintClicked) {
+      userScore++;
+      hintClicked = false;
+    } else {
+      userScore = userScore + 3;        
+    }
+    document.getElementById("score").innerHTML = "Score: " + userScore;
+
+
 
     // Adds event listener for processing a user guess on the current board for additional 3 cards
     for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
@@ -345,6 +358,18 @@ resetBtn.addEventListener("click", function() {
   for (let i = 0; i < document.getElementsByTagName("td").length - 1; i++) {
     let cardInSet = document.getElementById("card " + i);
     cardInSet.classList.remove("cardBorder");
+  }
+
+  // Removes event listener for processing a user guess on the current board for additional 3 cards if they exist
+  for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
+    document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
+  }
+
+  // Removes event listener for border around cards when clicked to additional 3 cards if they exist
+  for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
+    document.getElementsByTagName("td")[i].removeEventListener("click", function() {
+      this.classList.add("cardBorder");
+    });
   }
 
   fullDeck.printBoard();
