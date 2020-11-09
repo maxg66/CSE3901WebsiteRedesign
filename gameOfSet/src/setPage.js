@@ -343,38 +343,10 @@ noSetButton.addEventListener("click", checkNoSet);
 
 
 // Reset game
-resetBtn.addEventListener("click", function() {
-  fullDeck = new Deck();
-  fullDeck.generateDeck();
-  fullDeck.shuffle();
-  fullDeck.loadBoard();
-  numClickedCards = 0;
-  potentialSet = [];
-  userScore = 0;
-  setFound = false;
-  hintClicked = false;
-
-  // Remove border around all cards
-  for (let i = 0; i < document.getElementsByTagName("td").length - 1; i++) {
-    let cardInSet = document.getElementById("card " + i);
-    cardInSet.classList.remove("cardBorder");
-  }
-
-  // Removes event listener for processing a user guess on the current board for additional 3 cards if they exist
-  for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
-    document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
-  }
-
-  // Removes event listener for border around cards when clicked to additional 3 cards if they exist
-  for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
-    document.getElementsByTagName("td")[i].removeEventListener("click", function() {
-      this.classList.add("cardBorder");
-    });
-  }
-
-  fullDeck.printBoard();
-
-})
+let resetButton = document.getElementById("resetBtn");
+resetButton.addEventListener("click", function() {
+  window.location.reload();
+});
 
 
 //MODAL FUNCTIONALITY//
