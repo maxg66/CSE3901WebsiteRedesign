@@ -71,6 +71,13 @@ class Deck {
     }
   }
 
+  clearBoard () {
+    for(let i = 0; i < this.currentBoard.length; i++) {
+      document.getElementById("card "+i).innerHTML = "";
+      document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
+    }
+  }
+
   isPlayer (player, numbOfPlayers) {
     for (var i = 1; i <= numbOfPlayers; i++) {
         if (player == i) {
@@ -99,6 +106,7 @@ class Deck {
   handleUserGuess(positionSet) {
     
     // Remove border around selected cards
+    this.clearBoard();
     for (let i = 0; i < positionSet.length; i++) {
       let cardInSet = document.getElementById("card " + positionSet[i]);
       cardInSet.classList.remove("cardBorder");
@@ -335,7 +343,6 @@ function checkNoSet() {
     }
   }
 }
-
 
 // Add event listener to check if no set exists on current board when user clicks the "No Set" button 
 let noSetButton = document.getElementById("noSetBtn");
