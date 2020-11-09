@@ -80,9 +80,9 @@ class Deck {
     return false;
   }
 
-  addPoints(numbOfPlayers) {
+  addPoints(numOfPlayers) {
     var playerGotSet = prompt("Please enter which player won the point", "");
-    while (!this.isPlayer(playerGotSet,numbOfPlayers)) {
+    while (!this.isPlayer(playerGotSet,numOfPlayers)) {
       playerGotSet = prompt("Invalid Entry, Please enter which player won the point", "");
     }
     var score = document.getElementById(playerGotSet+ "score").innerHTML;
@@ -95,6 +95,7 @@ class Deck {
   // When a set is found, this method prints a message to the user, removes the set from the current
   // board, and replaces those three cards with 3 new cards from the deck if the deck has at least 3 
   // remaining cards; If no set is found, a message is simply printed in the browser.
+  // Returns true if user guess is a set and false otherwise.
   handleUserGuess(positionSet) { 
 
     let guessIsSet = this.checkUserMatch(positionSet);
@@ -119,6 +120,8 @@ class Deck {
     } else {
       document.getElementById("setMessage").innerHTML = "That is not a set. Please try again.";
     }
+
+    return guessIsSet;
     
   }
 
@@ -228,47 +231,18 @@ fullDeck.generateDeck();
 fullDeck.shuffle();
 fullDeck.loadBoard();
 fullDeck.printBoard();
-let lockBoard = false;
+let numClickedCards = 0;
+let potentialSet = [];
+let userScore = 0;
+let setFound = false;
+let hintClicked = false;
 
-let playerNum = 1;  // holds number of players
-let players = document.getElementById("numPlayers");
-
+// Displays a hint to the user when the hint button is clicked
 let hintButton = document.getElementById("hintBtn");
-
 hintButton.addEventListener("click", function() {
   fullDeck.hint();
+  hintClicked = true;
 })
-
-// Prompts the user to enter the number of players for the current game
-players.addEventListener("keypress", function (e) {
-
-  if (e.key == 'Enter') {
-    let players = document.getElementById("numPlayers").value;
-
-    if (isNaN(players) || players <= 0) {
-      document.getElementById("playerError").innerHTML = "Invalid player number";
-      
-    } else {
-      if (players == 1) {
-        document.getElementById("playerError").innerHTML = "This game will have " + players + " player.";
-        document.getElementById("scoreDiv").innerHTML = "<p>Player 1: <span id = '1score' >0</span></p>";
-      } else {
-        document.getElementById("playerError").innerHTML = "This game will have " + players + " players.";
-        var i = 1;
-        while (i <= players) {
-            document.getElementById("scoreDiv").innerHTML += "<p>Player " + i + ": <span id = '" + i + "score' >0</span></p>";
-            i++;
-        } 
-      }
-      document.getElementById("numPlayers").disabled = true;
-      document.getElementById("welcome").innerHTML = "";
-      playerNum = players;
-    }
-
-    return parseInt(players);
-  }
-  
-}, false);
 
 
 // Adds a border around cards when clicked
@@ -279,8 +253,6 @@ for (let i = 0; i < fullDeck.currentBoard.length; i++) {
 }
 
 
-let numClickedCards = 0;
-let potentialSet = [];
 // Processes a user guess when user selects three cards on the current board (**all card selections
 // must be unique to be processed**)
 function clickCard() {
@@ -295,12 +267,25 @@ function clickCard() {
   } else if (numClickedCards == 2 && !(potentialSet.includes(parseInt(this.id.substring(5, this.id.length))))) {
     numClickedCards++;  // reset number of clicked cards to zero
     potentialSet[2] = parseInt(this.id.substring(5, this.id.length));
-    fullDeck.handleUserGuess(potentialSet);
+    setFound = fullDeck.handleUserGuess(potentialSet);
+
+    // Update user's score if set is found
+    if (setFound) {
+      if (hintClicked) {
+        userScore++;
+        hintClicked = false;
+      } else {
+        userScore = userScore + 3;        
+      }
+      document.getElementById("score").innerHTML = "Score: " + userScore;
+    } 
     
+    // Remove border around selected cards
     for (let i = 0; i < potentialSet.length; i++) {
       let cardInSet = document.getElementById("card " + potentialSet[i]);
       cardInSet.classList.remove("cardBorder");
     }
+
     potentialSet = [];
     fullDeck.printBoard();
     numClickedCards = 0;
@@ -322,13 +307,48 @@ function checkNoSet() {
     document.getElementById("setMessage").innerHTML = "Correct! Let's deal three more cards.";
     fullDeck.addThreeCards();
     fullDeck.printBoard();
+
+    // Adds event listener for processing a user guess on the current board for additional 3 cards
+    for (let i = 13; i < document.getElementsByTagName("td").length; i++) {
+      document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
+    }
+
+    // Adds event listener for border around cards when clicked to additional 3 cards
+    for (let i = 13; i < document.getElementsByTagName("td").length; i++) {
+      document.getElementsByTagName("td")[i].addEventListener("click", function() {
+        this.classList.add("cardBorder");
+      });
+    }
   }
 }
+
 
 // Add event listener to check if no set exists on current board when user clicks the "No Set" button 
 let noSetButton = document.getElementById("noSetBtn");
 noSetButton.addEventListener("click", checkNoSet);
 
+
+// Reset game
+resetBtn.addEventListener("click", function() {
+  fullDeck = new Deck();
+  fullDeck.generateDeck();
+  fullDeck.shuffle();
+  fullDeck.loadBoard();
+  numClickedCards = 0;
+  potentialSet = [];
+  userScore = 0;
+  setFound = false;
+  hintClicked = false;
+
+  // Remove border around all cards
+  for (let i = 0; i < document.getElementsByTagName("td").length; i++) {
+    let cardInSet = document.getElementById("card " + i);
+    cardInSet.classList.remove("cardBorder");
+  }
+
+  fullDeck.printBoard();
+
+})
 
 
 //MODAL FUNCTIONALITY//

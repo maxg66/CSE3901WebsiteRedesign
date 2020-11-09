@@ -41,7 +41,7 @@ font-size: 30px;
 }
 
 /*button styling for rules and no set*/
-#hintBtn, #myBtn, #noSetBtn{
+#hintBtn, #myBtn, #noSetBtn, #resetBtn{
   background-color: white;
    border: none;
    color: black;
@@ -56,7 +56,7 @@ font-size: 30px;
  }
 
  /*button styling for hover fucntionality*/
-#rulesBtn:hover,#hintBtn:hover,#noSetBtn:hover {
+#rulesBtn:hover,#hintBtn:hover,#noSetBtn:hover, #resetBtn:hover {
   background-color:	#C0C0C0; /* Gray */
   color: black;
 }
