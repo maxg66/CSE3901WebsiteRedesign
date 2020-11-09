@@ -69,34 +69,30 @@ class Deck {
     for(let i = 0; i < this.currentBoard.length; i++) {
       document.getElementById("card "+i).innerHTML = "<img src=\"" + this.currentBoard[i].image + "\">";
     }
+      for (let x = 0; x < document.getElementsByTagName("td").length - 1; x++) {
+        document.getElementsByTagName("td")[x].addEventListener("click", clickCard);
+      }
+      for (let y = 0; y < document.getElementsByTagName("td").length - 1; y++) {
+        document.getElementsByTagName("td")[y].addEventListener("click", function() {
+          this.classList.add("cardBorder");
+        });
+      }
+    
   }
 
   clearBoard () {
     for(let i = 0; i < this.currentBoard.length; i++) {
       document.getElementById("card "+i).innerHTML = "";
-      document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
     }
-  }
-
-  isPlayer (player, numbOfPlayers) {
-    for (var i = 1; i <= numbOfPlayers; i++) {
-        if (player == i) {
-            return true;
-        }
+    //document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
+    for (let x = 0; x < document.getElementsByTagName("td").length - 1; x++) {
+      document.getElementsByTagName("td")[x].removeEventListener("click", clickCard);
     }
-    return false;
-  }
-
-  addPoints(numOfPlayers) {
-    var playerGotSet = prompt("Please enter which player won the point", "");
-    while (!this.isPlayer(playerGotSet,numOfPlayers)) {
-      playerGotSet = prompt("Invalid Entry, Please enter which player won the point", "");
+    for (let y = 0; y < document.getElementsByTagName("td").length - 1; y++) {
+      document.getElementsByTagName("td")[y].classList.remove("cardBorder");
     }
-    var score = document.getElementById(playerGotSet+ "score").innerHTML;
-    score++;
-    document.getElementById(playerGotSet+ "score").innerHTML = score;
+    
   }
-
 
 
   // When a set is found, this method prints a message to the user, removes the set from the current
@@ -261,11 +257,11 @@ hintButton.addEventListener("click", function() {
 
 
 // Adds a border around cards when clicked
-for (let i = 0; i < fullDeck.currentBoard.length; i++) {
+/*for (let i = 0; i < fullDeck.currentBoard.length; i++) {
   document.getElementsByTagName("td")[i].addEventListener("click", function() {
     this.classList.add("cardBorder");
   });
-}
+} */
 
 
 // Processes a user guess when user selects three cards on the current board (**all card selections
@@ -302,9 +298,9 @@ function clickCard() {
 }
 
 // Adds event listener for processing a user guess on the current board
-for (let i = 0; i < fullDeck.currentBoard.length; i++) {
+/*for (let i = 0; i < fullDeck.currentBoard.length; i++) {
   document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
-}
+} */
 
 
 // Checks if no set exists on current board
@@ -331,7 +327,7 @@ function checkNoSet() {
 
 
     // Adds event listener for processing a user guess on the current board for additional 3 cards
-    for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
+    /*for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
       document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
     }
 
@@ -339,8 +335,8 @@ function checkNoSet() {
     for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
       document.getElementsByTagName("td")[i].addEventListener("click", function() {
         this.classList.add("cardBorder");
-      });
-    }
+      }); 
+    } */
   }
 }
 
