@@ -70,9 +70,7 @@ class Deck {
     for( let i = 0; i < this.currentBoard.length; i++) {
       document.getElementById("card "+i).innerHTML = "<img src=\"" + this.currentBoard[i].image + "\">";
       document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
-      document.getElementsByTagName("td")[i].addEventListener("click", function() {
-        this.classList.add("cardBorder");
-      });
+      document.getElementsByTagName("td")[i].addEventListener("click", addCardBorder);
     }  
   }
 
@@ -81,6 +79,7 @@ class Deck {
     for(let i = 0; i < document.getElementsByTagName("td").length - 1; i++) {
       document.getElementById("card "+i).innerHTML = "";
       document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
+      document.getElementsByTagName("td")[i].removeEventListener("click", addCardBorder);
       document.getElementById("card "+i).classList.remove("cardBorder");
     }
   }
@@ -244,6 +243,10 @@ hintButton.addEventListener("click", function() {
   hintClicked = true;
 })
 
+// Adds a border around the selected card
+function addCardBorder() {
+  this.classList.add("cardBorder");
+}
 
 // Processes a user guess when user selects three cards on the current board (**all card selections
 // must be unique to be processed**)
@@ -272,7 +275,6 @@ function clickCard() {
       document.getElementById("score").innerHTML = "Score: " + userScore;
     } 
 
-    numClickedCards = 0;  // reset number of clicked cards to zero
     potentialSet = [];
     fullDeck.printBoard();
   } 
