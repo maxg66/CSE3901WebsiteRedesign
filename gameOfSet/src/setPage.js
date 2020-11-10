@@ -111,6 +111,11 @@ class Deck {
         for (let i = 0; i < 3; i++) {
           this.currentBoard.splice(positionSet[i],1);
         }
+
+        // End game if no more cards on deck
+        if (this.findSet().length == 1) {
+          this.gameOver();
+        }
       }
 
       // Print message to browser if the user's guess is not a set
@@ -119,7 +124,40 @@ class Deck {
     }
 
     return guessIsSet;
-    
+  }
+
+  // Disables all buttons and cards and displays an "end game" popuup
+  gameOver() {
+    // Disable all cards
+    let cards = document.getElementsByTagName("td");
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].disabled = true;
+    }
+
+    // Disable all buttons
+    let buttons = document.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+
+    // Contains div for end of game message popup
+    let endOfGame = document.getElementById("end");
+    endOfGame.style.display = "block";
+
+    // Get the <span> element that closes the end game
+    var endSpan = document.getElementById("endClose");
+
+    // When the user clicks on <span> (x), close the end game popup
+    endSpan.addEventListener("click", function() {
+      endOfGame.style.display = "none";
+    });
+
+    // When the user clicks anywhere outside of the end game popup, close it
+    window.addEventListener("click", function(event) {
+      if (event.target == endOfGame) {
+        endOfGame.style.display = "none";
+      }
+    });
   }
 
   // Adds three cards to the deck when no set can be found on current playing board
@@ -243,7 +281,7 @@ hintButton.addEventListener("click", function() {
   hintClicked = true;
 })
 
-// Adds a border around the selected card
+// Adds a border around the calling object (a card in this program)
 function addCardBorder() {
   this.classList.add("cardBorder");
 }
@@ -309,29 +347,29 @@ resetButton.addEventListener("click", function() {
 
 
 //MODAL FUNCTIONALITY//
-  
-var modal = document.getElementById("myModal");
+let modal = document.getElementById("myModal");
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+let btn = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
-var span = document.getElementsByClassName("close")[0];
+let span = document.getElementById("spanClose");
 
 // When the user clicks on the button, open the modal
-btn.onclick = function() {
+btn.addEventListener("click", function() {
   modal.style.display = "block";
-}
+});
 
 // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+span.addEventListener("click", function() {
+    modal.style.display = "none";
+  });
 
 // When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
+window.addEventListener("click", function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
-}
+});
+
 

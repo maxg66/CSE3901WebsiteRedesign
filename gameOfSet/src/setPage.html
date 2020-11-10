@@ -9,101 +9,104 @@
 
    <body>
 
-   <!--Page Heading-->
-   <h1 class="center" id="heading">The Game of Set</h1><br>
+      <!--Page Heading-->
+      <h1 class="center" id="heading">The Game of Set</h1><br>
 
-   <!--Prompts user for number of players-->
-   <div>
-      <p id=welcome>Welcome to the Game of Set!</p>
-   </div>
-
-   <p id=score>Score: 0</p>
-
-   <!--Table with Card Images-->
-   <table class="center">
-      <tr>
-         <td id="card 0"></td>
-         <td id="card 1"></td>
-         <td id="card 2"></td>
-         <td id="card 3"></td>
-      </tr>
-      <tr>
-         <td id="card 4"></td>
-         <td id="card 5"></td>
-         <td id="card 6"></td>
-         <td id="card 7"></td>
-      </tr>
-      <tr>
-         <td id="card 8"></td>
-         <td id="card 9"></td>
-         <td id="card 10"></td>
-         <td id="card 11"></td>
-      </tr>
-      <tr>
-         <td id="card 12"></td>
-         <td id="card 13"></td>
-         <td id="card 14"></td>
-         <td id="card 15"></td>
-      </tr>
-   </table>
-
-   <p id=setMessage></p>
-   <p id= "hintAnswer"></p>
-
-
-
-
-   <!--No Set Button and Rules Button-->
-   <div>
-      <button type="button" id="noSetBtn">No Set</button>
-      <button type="button" id="hintBtn">Hint</button>
-      <button id="myBtn">Rules</button>
-      <button id="resetBtn">Reset</button>
-   </div>
-
-   <p id="validate"></p>
-
-
-   <!--Structure for the Modal, PreFormated Text-->
-
-   <!-- The Modal -->
-  <!-- Trigger/Open The Modal -->
-
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-      <!-- Modal content -->
-      <div class="modal-content">
-         <span class="close">&times;</span>
-         <pre>
-            The objective of this game is create a set of 3 cards from the 12 on the board.
-            <strong>
-            Each card has 4 properties:
-               
-               Color - Red, Green, or Purple
-               Number of Shapes - 1, 2, or 3
-               Shape - Oval, Squiggle, or Diamond
-               Shading - Solid, Partial, Outlined
-               </strong>
-               <i>Ex: green | one | oval | empty 
-               This would be a card with the properties of green for color, one for number of shapes, oval for shape, and empty for shading.</i>
-            
-            ~ A Set consists of 3 cards in which each of the card's properties is the same on each card or different on each card. ~
-            
-            <b>The Play</b>
-            The deck of 81 cards is shuffled and then 12 are displayed.
-            The player makes a guess by clicking on three unique cards displayed on the current board.
-            If correct and no hint is used, the Set is removed and 3 points are awarded to the player that found the set.
-            If the player presses the hint button, the player may only receive 1 point for the next set found.
-            Then, 3 new cards from the deck replace the cards just removed.
-            If incorrect, the cards remain on the board.
-            If the player cannot find a set, the player should select "No Set."
-            If there is indeed no set to be found on the current board, 3 new cards are added to the board creating a total of 15 cards.
-            Once a set is found from 15 cards, no new cards are dealt and the game continues with the remaining 12 cards on the board.
-            The game ends when the deck has been depleted and no sets remain on the board!
-         </pre>
+      <!--Prompts user for number of players-->
+      <div>
+         <p id=welcome>Welcome to the Game of Set!</p>
       </div>
 
-   </div>
+      <p id=score>Score: 0</p>
+
+      <!--Table with Card Images-->
+      <table class="center">
+         <tr>
+            <td id="card 0"></td>
+            <td id="card 1"></td>
+            <td id="card 2"></td>
+            <td id="card 3"></td>
+         </tr>
+         <tr>
+            <td id="card 4"></td>
+            <td id="card 5"></td>
+            <td id="card 6"></td>
+            <td id="card 7"></td>
+         </tr>
+         <tr>
+            <td id="card 8"></td>
+            <td id="card 9"></td>
+            <td id="card 10"></td>
+            <td id="card 11"></td>
+         </tr>
+         <tr>
+            <td id="card 12"></td>
+            <td id="card 13"></td>
+            <td id="card 14"></td>
+            <td id="card 15"></td>
+         </tr>
+      </table>
+
+      <p id=setMessage></p>
+      <p id= "hintAnswer"></p>
+
+
+
+
+      <!--No Set Button and Rules Button-->
+      <div>
+         <button type="button" id="noSetBtn">No Set</button>
+         <button type="button" id="hintBtn">Hint</button>
+         <button id="myBtn">Rules</button>
+         <button id="resetBtn">Reset</button>
+      </div>
+
+      <p id="validate"></p>
+
+      <!--End Game popup message-->
+      <div id="end" class="endGame">
+         <div class="end-content">
+            <span id="endClose" class="close">&times;</span>
+            <pre><strong>You have completed the Game Of Set. Thanks for playing!</strong></pre>
+         </div>
+      </div>
+
+      <!-- The Modal -->
+      <div id="myModal" class="modal">
+
+         <!-- Modal content -->
+         <div class="modal-content">
+            <!-- Trigger/Open The Modal -->
+            <span id="spanClose" class="close">&times;</span>
+            <!--Structure for the Modal, PreFormated Text-->
+            <pre>
+               The objective of this game is create a set of 3 cards from the 12 on the board.
+               <strong>
+               Each card has 4 properties:
+                  
+                  Color - Red, Green, or Purple
+                  Number of Shapes - 1, 2, or 3
+                  Shape - Oval, Squiggle, or Diamond
+                  Shading - Solid, Partial, Outlined
+                  </strong>
+                  <i>Ex: green | one | oval | empty 
+                  This would be a card with the properties of green for color, one for number of shapes, oval for shape, and empty for shading.</i>
+               
+               ~ A Set consists of 3 cards in which each of the card's properties is the same on each card or different on each card. ~
+               
+               <b>The Play</b>
+               The deck of 81 cards is shuffled and then 12 are displayed.
+               The player makes a guess by clicking on three unique cards displayed on the current board.
+               If correct and no hint is used, the Set is removed and 3 points are awarded to the player that found the set.
+               If the player presses the hint button, the player may only receive 1 point for the next set found.
+               Then, 3 new cards from the deck replace the cards just removed.
+               If incorrect, the cards remain on the board.
+               If the player cannot find a set, the player should select "No Set."
+               If there is indeed no set to be found on the current board, 3 new cards are added to the board creating a total of 15 cards.
+               Once a set is found from 15 cards, no new cards are dealt and the game continues with the remaining 12 cards on the board.
+               The game ends when the deck has been depleted and no sets remain on the board!
+            </pre>
+         </div>
+      </div>
    </body>
 </html>

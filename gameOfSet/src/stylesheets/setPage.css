@@ -79,7 +79,7 @@ font-size: 30px;
 }
 
 /*Rules modal styling*/
-.modal {
+.modal, .endGame {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -93,7 +93,7 @@ font-size: 30px;
 }
 
 /* Modal Content/Box */
-.modal-content {
+.modal-content, .end-content {
   color:black;
   background-color: white;
   text-align: left;
