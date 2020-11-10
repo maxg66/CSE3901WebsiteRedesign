@@ -27,11 +27,12 @@ class Deck {
     const shapes = ['oval', 'diamond','squiggle']; //Define Shapes
     const fills = ['empty', 'partial', 'full']; //Define Fills
     
+    // Create all cards in deck
     for (let color in colors){
       for (let number in numbers){
         for (let shape in shapes){
           for (let fill in fills){
-            this.deck.push(new Card(colors[color],numbers[number],shapes[shape],fills[fill])); //create ind
+            this.deck.push(new Card(colors[color],numbers[number],shapes[shape],fills[fill]));
           }
         }
       }
@@ -66,32 +67,22 @@ class Deck {
 
   // Prints the current board of cards (12 or 15 cards depending on state of game)
   printBoard() {
-    for(let i = 0; i < this.currentBoard.length; i++) {
+    for( let i = 0; i < this.currentBoard.length; i++) {
       document.getElementById("card "+i).innerHTML = "<img src=\"" + this.currentBoard[i].image + "\">";
-    }
-      for (let x = 0; x < document.getElementsByTagName("td").length - 1; x++) {
-        document.getElementsByTagName("td")[x].addEventListener("click", clickCard);
-      }
-      for (let y = 0; y < document.getElementsByTagName("td").length - 1; y++) {
-        document.getElementsByTagName("td")[y].addEventListener("click", function() {
-          this.classList.add("cardBorder");
-        });
-      }
-    
+      document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
+      document.getElementsByTagName("td")[i].addEventListener("click", function() {
+        this.classList.add("cardBorder");
+      });
+    }  
   }
 
-  clearBoard () {
-    for(let i = 0; i < this.currentBoard.length; i++) {
+  // Clears the current cards, borders, and event listeners from the current board
+  clearBoard() {
+    for(let i = 0; i < document.getElementsByTagName("td").length - 1; i++) {
       document.getElementById("card "+i).innerHTML = "";
+      document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
+      document.getElementById("card "+i).classList.remove("cardBorder");
     }
-    //document.getElementsByTagName("td")[i].removeEventListener("click", clickCard);
-    for (let x = 0; x < document.getElementsByTagName("td").length - 1; x++) {
-      document.getElementsByTagName("td")[x].removeEventListener("click", clickCard);
-    }
-    for (let y = 0; y < document.getElementsByTagName("td").length - 1; y++) {
-      document.getElementsByTagName("td")[y].classList.remove("cardBorder");
-    }
-    
   }
 
 
@@ -100,13 +91,9 @@ class Deck {
   // remaining cards; If no set is found, a message is simply printed in the browser.
   // Returns true if user guess is a set and false otherwise.
   handleUserGuess(positionSet) {
-    
+
     // Remove border around selected cards
     this.clearBoard();
-    for (let i = 0; i < positionSet.length; i++) {
-      let cardInSet = document.getElementById("card " + positionSet[i]);
-      cardInSet.classList.remove("cardBorder");
-    }
 
     let guessIsSet = this.checkUserMatch(positionSet);
 
@@ -163,7 +150,8 @@ class Deck {
   // Provides hint to user about one of the cards in a set on the current playing board if a set exists, 
   // otherwise
   hint () {
-    var set = this.findSet();
+    let set = this.findSet();
+
     if (set.length > 1) {
       document.getElementById("hintAnswer").innerText = "Hint: The card with a light green border is part of a set.";
       let cardInHint = document.getElementById("card " + set[0]);
@@ -172,6 +160,7 @@ class Deck {
         cardInHint.classList.remove("hintBorder");
         document.getElementById("hintAnswer").innerText = "";
       }, 4000)
+      
     } else {
       document.getElementById("hintAnswer").innerText = "There are no sets on the board. Press the \"No Set\" button to add three cards to the board.";
     }
@@ -233,20 +222,20 @@ class Deck {
 
 
 
-
-
-// CODE OUTSIDE OF THE CARD AND DECK CLASSES
+/*------------ CODE OUTSIDE OF THE CARD AND DECK CLASSES ---------------*/
+// Initialize a new deck
 let fullDeck = new Deck();
 
 fullDeck.generateDeck();
 fullDeck.shuffle();
 fullDeck.loadBoard();
 fullDeck.printBoard();
-let numClickedCards = 0;
-let potentialSet = [];
-let userScore = 0;
-let setFound = false;
-let hintClicked = false;
+let numClickedCards = 0;  // keeps track of number of cards clicked
+let potentialSet = [];  // keeps track of user's clicks 
+let userScore = 0;  // keeps track of user score
+let setFound = false;  // set to true when set is found
+let hintClicked = false;  // used to allot proper number of points to user based on if hint is clicked or not
+
 
 // Displays a hint to the user when the hint button is clicked
 let hintButton = document.getElementById("hintBtn");
@@ -254,14 +243,6 @@ hintButton.addEventListener("click", function() {
   fullDeck.hint();
   hintClicked = true;
 })
-
-
-// Adds a border around cards when clicked
-/*for (let i = 0; i < fullDeck.currentBoard.length; i++) {
-  document.getElementsByTagName("td")[i].addEventListener("click", function() {
-    this.classList.add("cardBorder");
-  });
-} */
 
 
 // Processes a user guess when user selects three cards on the current board (**all card selections
@@ -276,35 +257,31 @@ function clickCard() {
     potentialSet[1] = parseInt(this.id.substring(5, this.id.length));
 
   } else if (numClickedCards == 2 && !(potentialSet.includes(parseInt(this.id.substring(5, this.id.length))))) {
-    numClickedCards++;  // reset number of clicked cards to zero
+    numClickedCards = 0;  // reset number of clicked cards to zero
     potentialSet[2] = parseInt(this.id.substring(5, this.id.length));
     setFound = fullDeck.handleUserGuess(potentialSet);
 
     // Update user's score if set is found
     if (setFound) {
       if (hintClicked) {
-        userScore++;
+        userScore++;  // add 1 point if player used a hint
         hintClicked = false;
       } else {
-        userScore = userScore + 3;        
+        userScore = userScore + 3;  // add 3 points of player didn't use a hint    
       }
       document.getElementById("score").innerHTML = "Score: " + userScore;
     } 
 
+    numClickedCards = 0;  // reset number of clicked cards to zero
     potentialSet = [];
     fullDeck.printBoard();
-    numClickedCards = 0;
   } 
 }
 
-// Adds event listener for processing a user guess on the current board
-/*for (let i = 0; i < fullDeck.currentBoard.length; i++) {
-  document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
-} */
 
-
-// Checks if no set exists on current board
+// Checks if no set exists on current board and adds three cards if cards exist in the deck
 function checkNoSet() {
+
   if (fullDeck.findSet().length > 1) {
     document.getElementById("setMessage").innerHTML = "Incorrect. There is a set on the current board.";
 
@@ -314,29 +291,6 @@ function checkNoSet() {
     document.getElementById("setMessage").innerHTML = "Correct! Let's deal three more cards.";
     fullDeck.addThreeCards();
     fullDeck.printBoard();
-
-    // Update user's score if set is found
-    if (hintClicked) {
-      userScore++;
-      hintClicked = false;
-    } else {
-      userScore = userScore + 3;        
-    }
-    document.getElementById("score").innerHTML = "Score: " + userScore;
-
-
-
-    // Adds event listener for processing a user guess on the current board for additional 3 cards
-    /*for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
-      document.getElementsByTagName("td")[i].addEventListener("click", clickCard);
-    }
-
-    // Adds event listener for border around cards when clicked to additional 3 cards
-    for (let i = 12; i < document.getElementsByTagName("td").length - 1; i++) {
-      document.getElementsByTagName("td")[i].addEventListener("click", function() {
-        this.classList.add("cardBorder");
-      }); 
-    } */
   }
 }
 
