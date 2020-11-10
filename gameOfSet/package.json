@@ -1,9 +1,4 @@
 {
-  "name": "gameOfSet",
-  "version": "1.0.0",
-  "description": "",
-  "main": "setPage.js",
-  
   "name": "jest-test",
   "version": "1.0.0",
   "description": "",
@@ -15,7 +10,8 @@
   "author": "Jan Bodnar",
   "license": "ISC",
   "devDependencies": {
-    "jest": "^24.0.0"
+    "enzyme": "^3.11.0",
+    "jest": "^24.9.0"
   },
   "dependencies": {
     "axios": "^0.18.0"
